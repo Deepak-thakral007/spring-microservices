@@ -1,0 +1,60 @@
+#spring.jpa.database: "POSTGRESQL"
+#spring.datasource.platform:  "postgres"
+#spring.jpa.show-sql: "true"
+#spring.database.driverClassName: "org.postgresql.Driver"
+#spring.datasource.url: "jdbc:postgresql://192.168.223.165:5432/eagle_eye_local"
+#spring.datasource.driver-class-name: "org.postgresql.Driver"
+#spring.datasource.username: "postgres1"
+#spring.datasource.password: "p0stgr@s"
+#spring.datasource.testWhileIdle: "true"
+#spring.datasource.validationQuery: "SELECT 1"
+#spring.jpa.properties.hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+signing.key: "345345fsdfsf5345"
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.223.165:5432/eagle_eye_local
+    username: postgres1
+    password: p0stgr@s
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    platform: postgres
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation: "true"
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: "false"
+
+
+#spring:
+#  datasource:
+ #   initialization-mode: always
+  #  testWhileIdle: true
+ # jpa:
+  #  generate-ddl: true
+   # hibernate:
+    #  ddl-auto: update
+     # naming:
+      #  physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    # properties:
+     # hibernate:
+     #   dialect: org.hibernate.dialect.PostgreSQLDialect
+     #   show_sql: true
+     #   format_sql: true
+#spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation: "true"
+#spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: "false"
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
