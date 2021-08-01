@@ -1,0 +1,68 @@
+version: '3'
+networks:
+  pomblk-test:
+    external: true
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    restart: always
+    mem_limit: 150m
+    networks:
+      - pomblk-test
+    ports:
+      - "2181:2181"
+
+  kafka:
+    depends_on:
+      - zookeeper
+    image: wurstmeister/kafka
+    container_name: kafka
+    mem_limit: 372m
+    restart: always
+    networks:
+      - pomblk-test
+    ports:
+      - "9094:9094"
+    environment:
+      HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  pomblk-mq1:
+    image: ibmcom/mq:latest
+    container_name: pomblk-mq1
+    mem_limit: 1536m
+    restart: always
+    networks:
+      - pomblk-test
+    ports:
+      - "1414:1414"
+    command: [ "/bin/bash", "/opt/pomblk-mq/run_mq.sh" ]
+    volumes:
+      - /home/iid/src/Test-Docker/mq:/opt/pomblk-mq/
+
+  pomblk-mq2:
+    image: ibmcom/mq:latest
+    container_name: pomblk-mq2
+    mem_limit: 1536m
+    restart: always
+    networks:
+      - pomblk-test
+    ports:
+      - "1415:1414"
+    command: [ "/bin/bash", "/opt/pomblk-mq/run_mq.sh" ]
+    volumes:
+      - /home/iid/src/Test-Docker/mq:/opt/pomblk-mq/
+

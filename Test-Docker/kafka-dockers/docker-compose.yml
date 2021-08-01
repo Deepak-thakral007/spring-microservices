@@ -1,0 +1,47 @@
+version: '2'
+networks:
+  microservice-network:
+    external: true
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    mem_limit: "1073741824"
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - microservice-network
+  kafka:
+    image: wurstmeister/kafka
+    mem_limit: "1073741824"
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    networks:
+      - microservice-network
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_CREATE_TOPICS: "test:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  microservice-postgres:
+    image: postgres
+    mem_limit: "1073741824"
+    container_name: microservice-postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - microservice-network
+    environment:
+      POSTGRES_PASSWORD: "password"
+  microservice-redis:
+    image: redis
+    mem_limit: "1073741824"
+    container_name: microservice-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - microservice-network
