@@ -12,7 +12,7 @@
 signing.key: "345345fsdfsf5345"
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.223.165:5432/eagle_eye_local
+    url: jdbc:postgresql://192.168.223.168:5432/eagle_eye_local
     username: postgres1
     password: p0stgr@s
     driver-class-name: org.postgresql.Driver

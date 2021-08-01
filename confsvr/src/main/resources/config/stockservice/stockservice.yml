@@ -1,0 +1,27 @@
+example.property: "I AM THE DEFAULT"
+spring:
+  application:
+    name: stockservice
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/eagle_eye_local
+    username: postgres1
+    password: p0stgr@s
+    driver-class-name: org.postgresql.Driver
+    #initialization-mode: always
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    platform: postgres
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      #  show_sql: true
+      #  format_sql: true
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation: "true"
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: "false"
